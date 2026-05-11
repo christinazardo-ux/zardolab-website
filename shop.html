@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — Zardo Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #F2EFE9;
+      --cream-dark: #E8E3DB;
+      --charcoal: #1B1B1D;
+      --charcoal-soft: #2A2A2C;
+      --aperitivo: #E63D1A;
+      --brass-light: #D4B87A;
+      --stone: #8A8780;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-ui: 'Josefin Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--charcoal); color: var(--cream); font-family: var(--font-display); min-height: 100vh; display: flex; flex-direction: column; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 56px; height: 84px; background: var(--charcoal); border-bottom: 1px solid rgba(242,239,233,0.08); }
+    .nav-logo { display: flex; align-items: center; gap: 16px; text-decoration: none; }
+    .nav-icon { height: 52px; width: auto; display: block; }
+    .nav-wordmark { display: flex; flex-direction: column; line-height: 1; }
+    .nav-wordmark-name { font-family: var(--font-display); font-size: 28px; font-weight: 400; letter-spacing: 0.03em; color: var(--cream); }
+    .nav-wordmark-sub { font-family: var(--font-ui); font-size: 10px; font-weight: 300; letter-spacing: 0.22em; color: var(--aperitivo); text-transform: uppercase; margin-top: 4px; }
+    .nav-links { display: flex; align-items: center; gap: 40px; list-style: none; }
+    .nav-links a { font-family: var(--font-ui); font-size: 12px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream); text-decoration: none; position: relative; opacity: 0.7; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { color: var(--aperitivo); opacity: 1; }
+    .nav-cta { font-family: var(--font-ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 1px solid rgba(242,239,233,0.3); padding: 12px 24px; transition: all 0.25s; }
+    .nav-cta:hover { background: var(--aperitivo); border-color: var(--aperitivo); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--cream); transition: all 0.3s; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-mobile { display: none; position: fixed; top: 84px; left: 0; right: 0; bottom: 0; background: var(--charcoal); z-index: 99; flex-direction: column; padding: 48px 40px; gap: 32px; overflow-y: auto; }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a { font-family: var(--font-ui); font-size: 14px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(242,239,233,0.08); opacity: 0.7; }
+    .nav-mobile a:hover { opacity: 1; }
+    .nav-mobile .nav-mobile-cta { background: var(--aperitivo); padding: 18px 32px; text-align: center; margin-top: 16px; opacity: 1; border: none; font-family: var(--font-ui); font-size: 13px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream); text-decoration: none; }
+
+    /* MAIN */
+    main {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 140px 72px 96px; text-align: center;
+    }
+    .eyebrow {
+      font-family: var(--font-ui); font-size: 11px; font-weight: 400;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--aperitivo);
+      margin-bottom: 32px; display: flex; align-items: center; justify-content: center; gap: 12px;
+    }
+    .eyebrow::before, .eyebrow::after { content: ''; display: block; width: 32px; height: 1px; background: var(--aperitivo); }
+    h1 {
+      font-family: var(--font-display); font-size: clamp(52px, 7vw, 96px);
+      font-weight: 300; color: var(--cream); line-height: 1; letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    h1 em { font-style: italic; color: var(--brass-light); }
+    .sub {
+      font-family: var(--font-display); font-size: 22px; font-weight: 300;
+      color: rgba(242,239,233,0.65); line-height: 1.75; max-width: 520px;
+      margin: 0 auto 64px;
+    }
+
+    /* NAV LINKS */
+    .page-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+    .page-link {
+      font-family: var(--font-ui); font-size: 11px; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cream); text-decoration: none;
+      border: 1px solid rgba(242,239,233,0.2); padding: 14px 24px;
+      transition: all 0.25s; opacity: 0.8;
+    }
+    .page-link:hover { border-color: var(--aperitivo); color: var(--aperitivo); opacity: 1; }
+
+    /* FOOTER */
+    footer { background: var(--charcoal-soft); padding: 56px 72px 32px; border-top: 1px solid rgba(242,239,233,0.06); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-family: var(--font-ui); font-size: 11px; font-weight: 300; letter-spacing: 0.1em; color: var(--stone); }
+    .footer-bottom a { color: var(--stone); text-decoration: none; transition: color 0.2s; }
+    .footer-bottom a:hover { color: var(--cream); }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; height: 72px; }
+      .nav-icon { height: 42px; }
+      .nav-wordmark-name { font-size: 22px; }
+      .nav-wordmark-sub { font-size: 9px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile { top: 72px; }
+      main { padding: 120px 32px 80px; }
+      footer { padding: 40px 32px 28px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 540px) {
+      nav { padding: 0 20px; }
+      main { padding: 100px 24px 64px; }
+      footer { padding: 32px 24px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-icon" viewBox="0 0 1254 1254" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M624.608 207.083 C 624.356 207.862,622.925 213.000,621.429 218.500 C 617.422 233.227,612.125 246.055,600.566 269.020 C 589.171 291.659,587.433 297.275,588.294 308.685 C 590.274 334.929,617.693 351.086,641.365 339.958 C 657.364 332.438,666.135 312.949,661.601 294.996 C 660.687 291.376,654.896 278.315,648.523 265.500 C 636.885 242.097,633.079 232.555,628.980 216.500 C 626.604 207.196,625.405 204.614,624.608 207.083" fill="#E63D1A" fill-rule="evenodd"/>
+        <path d="M335.213 313.128 C 327.779 315.272,316.539 340.390,311.105 367.000 C 303.649 403.516,307.616 437.607,323.033 469.500 C 346.986 519.052,396.277 554.886,480.500 583.977 C 533.450 602.266,553.951 612.688,573.681 631.349 C 595.730 652.203,607.868 677.662,612.461 712.684 C 613.639 721.667,614.000 734.441,614.000 767.184 L 614.000 809.952 597.250 810.226 L 580.500 810.500 580.500 822.500 L 580.500 834.500 597.433 834.766 C 606.746 834.912,614.447 835.137,614.546 835.266 C 614.646 835.395,615.244 845.400,615.876 857.500 C 618.026 898.708,617.003 919.476,611.912 937.947 C 610.767 942.101,605.616 954.275,600.465 965.000 C 588.080 990.787,585.838 999.075,588.007 1011.040 C 589.738 1020.585,593.224 1027.066,600.004 1033.343 C 607.956 1040.705,614.736 1043.330,626.052 1043.427 C 634.003 1043.495,635.141 1043.234,642.248 1039.722 C 653.723 1034.051,659.496 1026.550,662.604 1013.271 C 665.548 1000.691,663.060 990.202,651.660 967.148 C 634.728 932.905,632.233 917.069,634.989 861.337 L 636.292 835.000 645.396 834.994 C 650.403 834.991,658.226 834.698,662.780 834.343 L 671.061 833.699 670.780 822.099 L 670.500 810.500 653.750 810.226 C 638.715 809.980,636.988 809.775,636.879 808.226 C 636.812 807.277,636.827 787.600,636.912 764.500 C 637.029 732.765,637.440 719.934,638.594 712.000 C 643.462 678.534,655.001 653.969,675.480 633.472 C 695.255 613.679,715.508 603.252,772.000 583.778 C 826.313 565.055,865.137 543.399,893.329 516.103 C 917.846 492.365,933.338 465.116,940.234 433.597 C 942.155 424.815,942.439 420.569,942.413 401.000 C 942.385 380.195,942.176 377.572,939.641 366.187 C 935.423 347.241,926.972 325.318,920.923 317.629 C 913.945 308.759,900.000 312.335,900.000 322.994 C 900.000 325.139,901.480 329.922,903.489 334.271 C 908.237 344.545,912.432 357.416,915.137 370.000 C 918.334 384.876,918.428 413.018,915.327 427.121 C 909.821 452.171,896.387 475.752,876.293 495.639 C 849.232 522.422,814.033 541.111,747.500 564.024 C 715.511 575.041,700.454 581.692,683.592 592.252 C 661.161 606.302,642.092 626.728,629.484 650.211 C 627.036 654.770,625.026 657.854,625.017 657.064 C 624.991 654.833,614.396 636.649,608.780 629.196 C 598.390 615.409,584.995 603.149,568.888 592.686 C 552.608 582.112,533.779 573.865,496.500 560.984 C 431.144 538.400,395.030 517.925,367.992 488.126 C 351.532 469.986,340.326 448.647,335.368 426.000 C 333.897 419.282,333.514 413.412,333.545 398.000 C 333.579 380.219,333.830 377.446,336.389 366.540 C 339.640 352.681,342.881 343.231,347.626 333.775 C 351.791 325.474,352.059 320.435,348.538 316.636 C 346.116 314.022,342.009 311.913,339.685 312.090 C 339.033 312.140,337.021 312.607,335.213 313.128" fill="#F2EFE9" fill-rule="evenodd"/>
+        <path d="M433.500 407.067 C 410.422 409.019,379.050 414.854,371.980 418.511 C 362.331 423.500,364.899 435.672,379.804 455.595 C 402.527 485.967,440.737 510.846,494.567 530.316 C 591.707 565.452,710.030 559.044,800.500 513.749 C 842.611 492.665,874.992 461.813,884.348 433.862 C 888.830 420.472,878.796 414.346,853.000 414.723 C 839.368 414.922,824.951 417.675,801.500 424.557 C 753.071 438.767,729.230 443.001,697.644 442.999 C 665.687 442.997,644.316 439.435,592.500 425.472 C 539.709 411.246,513.309 407.161,470.000 406.517 C 455.975 406.308,439.550 406.556,433.500 407.067" fill="#E63D1A" fill-rule="evenodd"/>
+      </svg>
+      <div class="nav-wordmark">
+        <span class="nav-wordmark-name">Zardo Lab</span>
+        <span class="nav-wordmark-sub">Experiment &amp; Indulge</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="bar-service.html">Bar Service</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Inquire</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="menu.html">Menu</a>
+    <a href="shop.html">Shop</a>
+    <a href="bar-service.html">Bar Service</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="nav-mobile-cta">Inquire</a>
+  </div>
+
+  <main>
+    <div class="eyebrow">Shop</div>
+    <h1>Something good<br>is <em>coming.</em></h1>
+    <p class="sub">Products are on the way. In the meantime, explore what Zardo Lab is all about.</p>
+    <div class="page-links">
+      <a href="menu.html" class="page-link">The Menu</a>
+      <a href="about.html" class="page-link">About</a>
+      <a href="bar-service.html" class="page-link">Private Cocktail Experiences</a>
+      <a href="contact.html" class="page-link">Get in Touch</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Zardo Lab. All rights reserved.</p>
+      <p><a href="contact.html">hello@zardolab.com</a></p>
+      <p>Est. 2026 &nbsp;&middot;&nbsp; Ontario, Canada</p>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>
