@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bar Service — Zardo Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #F2EFE9;
+      --cream-dark: #E8E3DB;
+      --charcoal: #1B1B1D;
+      --charcoal-soft: #2A2A2C;
+      --aperitivo: #E63D1A;
+      --brass: #B99A4E;
+      --brass-light: #D4B87A;
+      --stone: #8A8780;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-ui: 'Josefin Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--charcoal); font-family: var(--font-display); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 56px; height: 84px; background: var(--cream); border-bottom: 1px solid rgba(27,27,29,0.1); transition: box-shadow 0.3s; }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(27,27,29,0.08); }
+    .nav-logo { display: flex; align-items: center; gap: 16px; text-decoration: none; }
+    .nav-icon { height: 52px; width: auto; display: block; }
+    .nav-wordmark { display: flex; flex-direction: column; line-height: 1; }
+    .nav-wordmark-name { font-family: var(--font-display); font-size: 28px; font-weight: 400; letter-spacing: 0.03em; color: var(--charcoal); }
+    .nav-wordmark-sub { font-family: var(--font-ui); font-size: 10px; font-weight: 300; letter-spacing: 0.22em; color: var(--aperitivo); text-transform: uppercase; margin-top: 4px; }
+    .nav-links { display: flex; align-items: center; gap: 40px; list-style: none; }
+    .nav-links a { font-family: var(--font-ui); font-size: 12px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--charcoal); text-decoration: none; position: relative; transition: color 0.2s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--aperitivo); transition: width 0.3s ease; }
+    .nav-links a:hover { color: var(--aperitivo); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--aperitivo); }
+    .nav-links a.active::after { width: 100%; }
+    .nav-cta { font-family: var(--font-ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--charcoal); text-decoration: none; border: 1px solid var(--charcoal); padding: 12px 24px; transition: all 0.25s; }
+    .nav-cta:hover { background: var(--charcoal); color: var(--cream); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--charcoal); transition: all 0.3s; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-mobile { display: none; position: fixed; top: 84px; left: 0; right: 0; bottom: 0; background: var(--cream); z-index: 99; flex-direction: column; padding: 48px 40px; gap: 32px; overflow-y: auto; }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a { font-family: var(--font-ui); font-size: 14px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--charcoal); text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(27,27,29,0.08); }
+    .nav-mobile a:hover { color: var(--aperitivo); }
+    .nav-mobile .nav-mobile-cta { font-family: var(--font-ui); font-size: 13px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream); text-decoration: none; background: var(--aperitivo); padding: 18px 32px; text-align: center; margin-top: 16px; }
+
+    /* HERO */
+    .hero { background: var(--charcoal); padding: 160px 72px 100px; border-bottom: 1px solid rgba(242,239,233,0.08); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .hero-photo { display: flex; align-items: center; justify-content: center; }
+    .hero-photo img { width: 60%; display: block; object-fit: contain; margin: 0 auto; }
+    .hero-eyebrow { font-family: var(--font-ui); font-size: 11px; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: var(--aperitivo); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--aperitivo); }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(52px, 6vw, 88px); font-weight: 300; color: var(--cream); line-height: 1; letter-spacing: -0.02em; margin-bottom: 28px; }
+    .hero h1 em { font-style: italic; color: var(--brass-light); }
+    .hero-sub { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: rgba(242,239,233,0.88); line-height: 1.75; margin-bottom: 28px; }
+    .hero-caveat {
+      font-family: var(--font-ui); font-size: 14px; font-weight: 300;
+      color: rgba(242,239,233,0.65); line-height: 1.8;
+      letter-spacing: 0.04em; margin-bottom: 0;
+      border-left: 2px solid var(--aperitivo); padding-left: 20px;
+    }
+
+    /* SERVICES */
+    .services-section { background: var(--cream); }
+    .service-block {
+      display: grid; grid-template-columns: 1fr 2fr;
+      border-bottom: 1px solid rgba(27,27,29,0.08);
+    }
+    .service-block.dark { background: var(--charcoal); }
+    .service-label-col {
+      padding: 40px 56px 40px 72px;
+      border-right: 1px solid rgba(27,27,29,0.08);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .service-block.dark .service-label-col { border-right-color: rgba(242,239,233,0.08); }
+    .service-number { font-family: var(--font-ui); font-size: 10px; font-weight: 300; letter-spacing: 0.25em; color: var(--aperitivo); }
+    .service-title { font-family: var(--font-display); font-size: clamp(32px, 3vw, 46px); font-weight: 300; color: var(--charcoal); line-height: 1.05; letter-spacing: -0.01em; }
+    .service-block.dark .service-title { color: var(--cream); }
+    .service-body-col { padding: 40px 72px 40px 56px; }
+    .service-body { font-family: var(--font-display); font-size: 20px; font-weight: 300; line-height: 1.8; color: rgba(27,27,29,0.95); }
+    .service-block.dark .service-body { color: rgba(242,239,233,0.8); }
+    .service-body p + p { margin-top: 20px; }
+    .service-note {
+      margin-top: 28px; font-family: var(--font-ui); font-size: 15px; font-weight: 300;
+      letter-spacing: 0.05em; color: var(--stone);
+      display: flex; align-items: baseline; gap: 10px; line-height: 1.7;
+    }
+    .service-note::before { content: '—'; color: var(--aperitivo); flex-shrink: 0; }
+
+    /* BEST SUITED FOR */
+    .suited-section {
+      background: var(--cream-dark); padding: 96px 72px;
+      border-bottom: 1px solid rgba(27,27,29,0.08);
+    }
+    .section-label { font-family: var(--font-ui); font-size: 11px; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: var(--aperitivo); display: flex; align-items: center; gap: 16px; margin-bottom: 48px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(27,27,29,0.12); }
+    .suited-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 80px; max-width: 860px; }
+    .suited-col { display: flex; flex-direction: column; }
+    .suited-list-item {
+      font-family: var(--font-ui); font-size: 15px; font-weight: 300;
+      letter-spacing: 0.06em; color: rgba(27,27,29,0.95);
+      padding: 16px 0; border-bottom: 1px solid rgba(27,27,29,0.08);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .suited-list-item::before { content: '—'; color: var(--aperitivo); font-size: 11px; flex-shrink: 0; }
+    .suited-list-item:last-child { border-bottom: none; }
+
+    /* HOW IT WORKS */
+    .how-heading {
+      font-family: var(--font-display); font-size: clamp(56px, 7vw, 96px);
+      font-weight: 300; color: var(--cream); letter-spacing: -0.02em;
+      line-height: 1; margin-bottom: 64px;
+    }
+    .how-section { background: var(--charcoal); padding: 96px 72px; }
+    .how-section .section-label { color: var(--brass-light); }
+    .how-section .section-label::after { background: rgba(242,239,233,0.1); }
+    .how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+    .how-col h3 { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: var(--cream); margin-bottom: 24px; letter-spacing: -0.01em; }
+    .how-col h3 em { font-style: italic; color: var(--brass-light); }
+    .how-steps { display: flex; flex-direction: column; }
+    .how-step { padding: 16px 0; border-bottom: 1px solid rgba(242,239,233,0.07); display: flex; gap: 24px; align-items: baseline; }
+    .how-step:last-child { border-bottom: none; }
+    .how-step-num { font-family: var(--font-ui); font-size: 11px; font-weight: 300; letter-spacing: 0.2em; color: var(--aperitivo); flex-shrink: 0; padding-top: 2px; }
+    .how-step-text { font-family: var(--font-ui); font-size: 14px; font-weight: 300; letter-spacing: 0.05em; color: rgba(242,239,233,0.78); line-height: 1.7; }
+    .need-list { display: flex; flex-direction: column; }
+    .need-item { padding: 12px 0; border-bottom: 1px solid rgba(242,239,233,0.07); display: flex; align-items: baseline; gap: 16px; }
+    .need-item:last-child { border-bottom: none; }
+    .need-item::before { content: '—'; color: var(--aperitivo); font-size: 11px; flex-shrink: 0; }
+    .need-item span { font-family: var(--font-ui); font-size: 14px; font-weight: 300; letter-spacing: 0.05em; color: rgba(242,239,233,0.78); line-height: 1.6; }
+
+    /* PRICING + RESPONSIBLE */
+    .bottom-section { background: var(--cream); padding: 96px 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; border-top: 1px solid rgba(27,27,29,0.08); }
+    .bottom-col h3 { font-family: var(--font-display); font-size: 32px; font-weight: 300; color: var(--charcoal); margin-bottom: 20px; letter-spacing: -0.01em; }
+    .bottom-col p { font-family: var(--font-display); font-size: 19px; font-weight: 300; line-height: 1.8; color: rgba(27,27,29,0.95); }
+    .bottom-col p + p { margin-top: 16px; }
+
+    /* CTA */
+    .cta-section { background: var(--charcoal-soft); padding: 96px 72px; text-align: center; }
+    .cta-section h2 { font-family: var(--font-display); font-size: clamp(36px, 4vw, 60px); font-weight: 300; color: var(--cream); line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 20px; }
+    .cta-section h2 em { font-style: italic; color: var(--brass-light); }
+    .cta-section p { font-family: var(--font-display); font-size: 20px; font-weight: 300; color: rgba(242,239,233,0.65); line-height: 1.7; margin-bottom: 40px; }
+    .cta-buttons { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
+    .btn-primary { font-family: var(--font-ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream); text-decoration: none; background: var(--aperitivo); border: 1px solid var(--aperitivo); padding: 16px 32px; transition: all 0.25s; display: inline-block; }
+    .btn-primary:hover { background: transparent; color: var(--aperitivo); }
+    .btn-outline-light { font-family: var(--font-ui); font-size: 12px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 1px solid rgba(242,239,233,0.3); padding: 16px 32px; transition: all 0.25s; display: inline-block; }
+    .btn-outline-light:hover { border-color: var(--cream); }
+
+    /* FOOTER */
+    footer { background: var(--charcoal-soft); padding: 72px 72px 40px; border-top: 1px solid rgba(242,239,233,0.06); }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 64px; margin-bottom: 64px; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .footer-logo-icon { height: 36px; width: auto; }
+    .footer-brand-name { font-family: var(--font-display); font-size: 26px; font-weight: 400; color: var(--cream); letter-spacing: 0.02em; }
+    .footer-brand-tag { font-family: var(--font-ui); font-size: 10px; font-weight: 300; letter-spacing: 0.25em; color: var(--aperitivo); text-transform: uppercase; margin-bottom: 20px; }
+    .footer-brand p { font-family: var(--font-ui); font-size: 13px; font-weight: 300; color: var(--stone); letter-spacing: 0.04em; line-height: 1.8; }
+    .footer-col h4 { font-family: var(--font-ui); font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--brass-light); margin-bottom: 20px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 12px; }
+    .footer-col ul li a { font-family: var(--font-ui); font-size: 13px; font-weight: 300; letter-spacing: 0.06em; color: var(--stone); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--cream); }
+    .footer-bottom { border-top: 1px solid rgba(245,240,235,0.06); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-family: var(--font-ui); font-size: 11px; font-weight: 300; letter-spacing: 0.1em; color: var(--stone); }
+    .footer-bottom a { color: var(--stone); text-decoration: none; transition: color 0.2s; }
+    .footer-bottom a:hover { color: var(--cream); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; height: 72px; }
+      .nav-icon { height: 42px; }
+      .nav-wordmark-name { font-size: 22px; }
+      .nav-wordmark-sub { font-size: 9px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile { top: 72px; }
+      .hero { padding: 120px 32px 64px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-photo { order: -1; }
+      .service-block { grid-template-columns: 1fr; }
+      .service-label-col { padding: 32px 32px 16px; border-right: none; border-bottom: 1px solid rgba(27,27,29,0.08); }
+      .service-block.dark .service-label-col { border-bottom-color: rgba(242,239,233,0.08); }
+      .service-body-col { padding: 16px 32px 32px; }
+      .suited-section { padding: 64px 32px; }
+      .suited-grid { grid-template-columns: repeat(2, 1fr); }
+      .how-section { padding: 64px 32px; }
+      .how-grid { grid-template-columns: 1fr; gap: 48px; }
+      .bottom-section { grid-template-columns: 1fr; padding: 64px 32px; gap: 48px; }
+      .cta-section { padding: 64px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .footer-brand { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 540px) {
+      nav { padding: 0 20px; }
+      .suited-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 48px 24px 28px; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-icon" viewBox="0 0 1254 1254" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M624.608 207.083 C 624.356 207.862,622.925 213.000,621.429 218.500 C 617.422 233.227,612.125 246.055,600.566 269.020 C 589.171 291.659,587.433 297.275,588.294 308.685 C 590.274 334.929,617.693 351.086,641.365 339.958 C 657.364 332.438,666.135 312.949,661.601 294.996 C 660.687 291.376,654.896 278.315,648.523 265.500 C 636.885 242.097,633.079 232.555,628.980 216.500 C 626.604 207.196,625.405 204.614,624.608 207.083" fill="#E63D1A" fill-rule="evenodd"/>
+        <path d="M335.213 313.128 C 327.779 315.272,316.539 340.390,311.105 367.000 C 303.649 403.516,307.616 437.607,323.033 469.500 C 346.986 519.052,396.277 554.886,480.500 583.977 C 533.450 602.266,553.951 612.688,573.681 631.349 C 595.730 652.203,607.868 677.662,612.461 712.684 C 613.639 721.667,614.000 734.441,614.000 767.184 L 614.000 809.952 597.250 810.226 L 580.500 810.500 580.500 822.500 L 580.500 834.500 597.433 834.766 C 606.746 834.912,614.447 835.137,614.546 835.266 C 614.646 835.395,615.244 845.400,615.876 857.500 C 618.026 898.708,617.003 919.476,611.912 937.947 C 610.767 942.101,605.616 954.275,600.465 965.000 C 588.080 990.787,585.838 999.075,588.007 1011.040 C 589.738 1020.585,593.224 1027.066,600.004 1033.343 C 607.956 1040.705,614.736 1043.330,626.052 1043.427 C 634.003 1043.495,635.141 1043.234,642.248 1039.722 C 653.723 1034.051,659.496 1026.550,662.604 1013.271 C 665.548 1000.691,663.060 990.202,651.660 967.148 C 634.728 932.905,632.233 917.069,634.989 861.337 L 636.292 835.000 645.396 834.994 C 650.403 834.991,658.226 834.698,662.780 834.343 L 671.061 833.699 670.780 822.099 L 670.500 810.500 653.750 810.226 C 638.715 809.980,636.988 809.775,636.879 808.226 C 636.812 807.277,636.827 787.600,636.912 764.500 C 637.029 732.765,637.440 719.934,638.594 712.000 C 643.462 678.534,655.001 653.969,675.480 633.472 C 695.255 613.679,715.508 603.252,772.000 583.778 C 826.313 565.055,865.137 543.399,893.329 516.103 C 917.846 492.365,933.338 465.116,940.234 433.597 C 942.155 424.815,942.439 420.569,942.413 401.000 C 942.385 380.195,942.176 377.572,939.641 366.187 C 935.423 347.241,926.972 325.318,920.923 317.629 C 913.945 308.759,900.000 312.335,900.000 322.994 C 900.000 325.139,901.480 329.922,903.489 334.271 C 908.237 344.545,912.432 357.416,915.137 370.000 C 918.334 384.876,918.428 413.018,915.327 427.121 C 909.821 452.171,896.387 475.752,876.293 495.639 C 849.232 522.422,814.033 541.111,747.500 564.024 C 715.511 575.041,700.454 581.692,683.592 592.252 C 661.161 606.302,642.092 626.728,629.484 650.211 C 627.036 654.770,625.026 657.854,625.017 657.064 C 624.991 654.833,614.396 636.649,608.780 629.196 C 598.390 615.409,584.995 603.149,568.888 592.686 C 552.608 582.112,533.779 573.865,496.500 560.984 C 431.144 538.400,395.030 517.925,367.992 488.126 C 351.532 469.986,340.326 448.647,335.368 426.000 C 333.897 419.282,333.514 413.412,333.545 398.000 C 333.579 380.219,333.830 377.446,336.389 366.540 C 339.640 352.681,342.881 343.231,347.626 333.775 C 351.791 325.474,352.059 320.435,348.538 316.636 C 346.116 314.022,342.009 311.913,339.685 312.090 C 339.033 312.140,337.021 312.607,335.213 313.128" fill="#1B1B1D" fill-rule="evenodd"/>
+        <path d="M433.500 407.067 C 410.422 409.019,379.050 414.854,371.980 418.511 C 362.331 423.500,364.899 435.672,379.804 455.595 C 402.527 485.967,440.737 510.846,494.567 530.316 C 591.707 565.452,710.030 559.044,800.500 513.749 C 842.611 492.665,874.992 461.813,884.348 433.862 C 888.830 420.472,878.796 414.346,853.000 414.723 C 839.368 414.922,824.951 417.675,801.500 424.557 C 753.071 438.767,729.230 443.001,697.644 442.999 C 665.687 442.997,644.316 439.435,592.500 425.472 C 539.709 411.246,513.309 407.161,470.000 406.517 C 455.975 406.308,439.550 406.556,433.500 407.067" fill="#E63D1A" fill-rule="evenodd"/>
+      </svg>
+      <div class="nav-wordmark">
+        <span class="nav-wordmark-name">Zardo Lab</span>
+        <span class="nav-wordmark-sub">Experiment &amp; Indulge</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="bar-service.html" class="active">Bar Service</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Inquire</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="menu.html">Menu</a>
+    <a href="shop.html">Shop</a>
+    <a href="bar-service.html">Bar Service</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="nav-mobile-cta">Inquire</a>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-grid">
+      <div class="reveal">
+        <div class="hero-eyebrow">Bar Service</div>
+        <h1>Private Cocktail<br><em>Experiences</em></h1>
+        <p class="hero-sub">Thoughtful cocktails for small, elevated gatherings. Zardo Lab offers private cocktail service for intimate events, typically 6 to 20 guests, where the drinks are part of the experience — not an afterthought.</p>
+        <p class="hero-caveat">This is not high-volume mixed-drink service. If you're looking for fast rum-and-Cokes for a crowd, I may not be your person. But if you want a small cocktail menu made with care, proper glassware, beautiful garnishes, thoughtful flavours, and just the right amount of delightful excess — that is very much the Zardo Lab zone.</p>
+        <div style="margin-top: 40px;">
+          <a href="contact.html" class="btn-primary">Get in Touch</a>
+        </div>
+      </div>
+      <div class="hero-photo reveal">
+        <img src="cocktail-experience.png" alt="Zardo Lab cocktail experience"/>
+      </div>
+    </div>
+  </header>
+
+  <!-- SERVICES -->
+  <div class="services-section">
+
+    <div class="service-block reveal">
+      <div class="service-label-col">
+        <span class="service-number">01</span>
+        <h2 class="service-title">Private Cocktail Service</h2>
+      </div>
+      <div class="service-body-col">
+        <div class="service-body">
+          <p>For small events where cocktails are prepared and served on-site. I can bring the bar tools, mixers, garnishes, glassware, ice, supplies, and ingredients needed to create a polished cocktail experience.</p>
+          <p class="service-note">I just need access to a sink and a bar, counter, or serving table.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-block dark reveal">
+      <div class="service-label-col">
+        <span class="service-number">02</span>
+        <h2 class="service-title">Batch Cocktails</h2>
+      </div>
+      <div class="service-body-col">
+        <div class="service-body">
+          <p>For hosts who want something beautiful, delicious, and ready to serve. Batch cocktails can be prepared in advance with custom menus, garnish kits, serving instructions, and everything you need to pour confidently.</p>
+          <p>Perfect for dinner parties, cottage weekends, birthdays, pre-wedding gatherings, or a very well-stocked fridge.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-block reveal">
+      <div class="service-label-col">
+        <span class="service-number">03</span>
+        <h2 class="service-title">Custom Cocktail Menus</h2>
+      </div>
+      <div class="service-body-col">
+        <div class="service-body">
+          <p>For events that need a signature drink or a small curated menu. Cocktails can be designed around the occasion, season, theme, favourite flavours, or the general mood you want to create.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BEST SUITED FOR -->
+  <section class="suited-section">
+    <div class="section-label reveal">Best Suited For</div>
+    <div class="suited-cols reveal">
+      <div class="suited-col">
+        <div class="suited-list-item">Small private gatherings</div>
+        <div class="suited-list-item">Dinner parties</div>
+        <div class="suited-list-item">Birthdays and celebrations</div>
+        <div class="suited-list-item">Cottage weekends</div>
+      </div>
+      <div class="suited-col">
+        <div class="suited-list-item">Corporate or client events</div>
+        <div class="suited-list-item">Custom cocktail nights</div>
+        <div class="suited-list-item">Signature drink moments</div>
+        <div class="suited-list-item">Hosts who care about the details</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS + WHAT I NEED -->
+  <section class="how-section">
+    <h2 class="how-heading reveal">How It Works</h2>
+    <div class="how-grid">
+      <div class="how-col reveal">
+        <h3>The <em>process</em></h3>
+        <div class="how-steps">
+          <div class="how-step">
+            <span class="how-step-num">01</span>
+            <span class="how-step-text">Tell me what you're planning: the date, location, guest count, mood, and anything you already know you like.</span>
+          </div>
+          <div class="how-step">
+            <span class="how-step-num">02</span>
+            <span class="how-step-text">I'll help shape the right format — on-site cocktail service, prepared batch cocktails, a custom menu, or a mix of all three.</span>
+          </div>
+          <div class="how-step">
+            <span class="how-step-num">03</span>
+            <span class="how-step-text">Once the details are clear, I'll provide a custom quote based on the size, location, ingredients, supplies, and complexity of the service.</span>
+          </div>
+        </div>
+      </div>
+      <div class="how-col reveal reveal-delay-1">
+        <h3>What I need<br><em>from you</em></h3>
+        <div class="need-list">
+          <div class="need-item"><span>Access to a sink</span></div>
+          <div class="need-item"><span>A bar, counter, or serving table</span></div>
+          <div class="need-item"><span>A clear setup area</span></div>
+          <div class="need-item"><span>Event timing and guest count</span></div>
+          <div class="need-item"><span>Any venue rules or alcohol service requirements</span></div>
+          <div class="need-item"><span>A sense of the mood, flavours, or experience you want</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING + RESPONSIBLE -->
+  <section class="bottom-section">
+    <div class="bottom-col reveal">
+      <h3>Pricing</h3>
+      <p>Every event is quoted individually. Pricing depends on guest count, location, service format, cocktail complexity, ingredients, alcohol needs, glassware, ice, garnishes, and additional supplies.</p>
+    </div>
+    <div class="bottom-col reveal reveal-delay-1">
+      <h3>Responsible Service</h3>
+      <p>Zardo Lab is about measured indulgence: memorable drinks, thoughtful service, and a good night people actually remember fondly.</p>
+      <p>Depending on the event location and format, alcohol service requirements may vary. We can discuss what is needed during planning so the event is set up properly and responsibly.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2 class="reveal">Have an occasion?<br><em>I have the things.</em></h2>
+    <p class="reveal">Tell me about your event and I'll take it from there.</p>
+    <div class="cta-buttons reveal">
+      <a href="contact.html" class="btn-primary">Get in Touch</a>
+      <a href="menu.html" class="btn-outline-light">View the Menu</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg class="footer-logo-icon" viewBox="0 0 1254 1254" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M624.608 207.083 C 624.356 207.862,622.925 213.000,621.429 218.500 C 617.422 233.227,612.125 246.055,600.566 269.020 C 589.171 291.659,587.433 297.275,588.294 308.685 C 590.274 334.929,617.693 351.086,641.365 339.958 C 657.364 332.438,666.135 312.949,661.601 294.996 C 660.687 291.376,654.896 278.315,648.523 265.500 C 636.885 242.097,633.079 232.555,628.980 216.500 C 626.604 207.196,625.405 204.614,624.608 207.083" fill="#E63D1A" fill-rule="evenodd"/>
+            <path d="M335.213 313.128 C 327.779 315.272,316.539 340.390,311.105 367.000 C 303.649 403.516,307.616 437.607,323.033 469.500 C 346.986 519.052,396.277 554.886,480.500 583.977 C 533.450 602.266,553.951 612.688,573.681 631.349 C 595.730 652.203,607.868 677.662,612.461 712.684 C 613.639 721.667,614.000 734.441,614.000 767.184 L 614.000 809.952 597.250 810.226 L 580.500 810.500 580.500 822.500 L 580.500 834.500 597.433 834.766 C 606.746 834.912,614.447 835.137,614.546 835.266 C 614.646 835.395,615.244 845.400,615.876 857.500 C 618.026 898.708,617.003 919.476,611.912 937.947 C 610.767 942.101,605.616 954.275,600.465 965.000 C 588.080 990.787,585.838 999.075,588.007 1011.040 C 589.738 1020.585,593.224 1027.066,600.004 1033.343 C 607.956 1040.705,614.736 1043.330,626.052 1043.427 C 634.003 1043.495,635.141 1043.234,642.248 1039.722 C 653.723 1034.051,659.496 1026.550,662.604 1013.271 C 665.548 1000.691,663.060 990.202,651.660 967.148 C 634.728 932.905,632.233 917.069,634.989 861.337 L 636.292 835.000 645.396 834.994 C 650.403 834.991,658.226 834.698,662.780 834.343 L 671.061 833.699 670.780 822.099 L 670.500 810.500 653.750 810.226 C 638.715 809.980,636.988 809.775,636.879 808.226 C 636.812 807.277,636.827 787.600,636.912 764.500 C 637.029 732.765,637.440 719.934,638.594 712.000 C 643.462 678.534,655.001 653.969,675.480 633.472 C 695.255 613.679,715.508 603.252,772.000 583.778 C 826.313 565.055,865.137 543.399,893.329 516.103 C 917.846 492.365,933.338 465.116,940.234 433.597 C 942.155 424.815,942.439 420.569,942.413 401.000 C 942.385 380.195,942.176 377.572,939.641 366.187 C 935.423 347.241,926.972 325.318,920.923 317.629 C 913.945 308.759,900.000 312.335,900.000 322.994 C 900.000 325.139,901.480 329.922,903.489 334.271 C 908.237 344.545,912.432 357.416,915.137 370.000 C 918.334 384.876,918.428 413.018,915.327 427.121 C 909.821 452.171,896.387 475.752,876.293 495.639 C 849.232 522.422,814.033 541.111,747.500 564.024 C 715.511 575.041,700.454 581.692,683.592 592.252 C 661.161 606.302,642.092 626.728,629.484 650.211 C 627.036 654.770,625.026 657.854,625.017 657.064 C 624.991 654.833,614.396 636.649,608.780 629.196 C 598.390 615.409,584.995 603.149,568.888 592.686 C 552.608 582.112,533.779 573.865,496.500 560.984 C 431.144 538.400,395.030 517.925,367.992 488.126 C 351.532 469.986,340.326 448.647,335.368 426.000 C 333.897 419.282,333.514 413.412,333.545 398.000 C 333.579 380.219,333.830 377.446,336.389 366.540 C 339.640 352.681,342.881 343.231,347.626 333.775 C 351.791 325.474,352.059 320.435,348.538 316.636 C 346.116 314.022,342.009 311.913,339.685 312.090 C 339.033 312.140,337.021 312.607,335.213 313.128" fill="#F2EFE9" fill-rule="evenodd"/>
+            <path d="M433.500 407.067 C 410.422 409.019,379.050 414.854,371.980 418.511 C 362.331 423.500,364.899 435.672,379.804 455.595 C 402.527 485.967,440.737 510.846,494.567 530.316 C 591.707 565.452,710.030 559.044,800.500 513.749 C 842.611 492.665,874.992 461.813,884.348 433.862 C 888.830 420.472,878.796 414.346,853.000 414.723 C 839.368 414.922,824.951 417.675,801.500 424.557 C 753.071 438.767,729.230 443.001,697.644 442.999 C 665.687 442.997,644.316 439.435,592.500 425.472 C 539.709 411.246,513.309 407.161,470.000 406.517 C 455.975 406.308,439.550 406.556,433.500 407.067" fill="#E63D1A" fill-rule="evenodd"/>
+          </svg>
+          <span class="footer-brand-name">Zardo Lab</span>
+        </div>
+        <div class="footer-brand-tag">Experiment &amp; Indulge</div>
+        <p>Based in Ontario, Canada.<br>Available for events across Ontario.<br>hello@zardolab.com</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="shop.html">Batch Cocktails</a></li>
+          <li><a href="bar-service.html">Private Bar Service</a></li>
+          <li><a href="shop.html">Garnishes + Products</a></li>
+          <li><a href="menu.html">Custom Menus</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://instagram.com/zardolab" target="_blank" rel="noopener">@zardolab</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Zardo Lab. All rights reserved.</p>
+      <p><a href="#">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="#">Terms</a></p>
+      <p>Est. 2026 &nbsp;&middot;&nbsp; Ontario, Canada</p>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); });
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>
