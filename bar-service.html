@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"/>
   <title>Cocktail Experience — Zardo Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -172,8 +172,8 @@
     .footer-bottom a { color: var(--stone); text-decoration: none; transition: color 0.2s; }
     .footer-bottom a:hover { color: var(--cream); }
 
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal { opacity: 0; -webkit-transform: translateY(24px); transform: translateY(24px); -webkit-transition: opacity 0.7s ease, -webkit-transform 0.7s ease; transition: opacity 0.7s ease, transform 0.7s ease; will-change: opacity, transform; }
+    .reveal.visible { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 0.15s; }
 
     @media (max-width: 900px) {
@@ -436,7 +436,7 @@
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
     reveals.forEach(el => observer.observe(el));
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
