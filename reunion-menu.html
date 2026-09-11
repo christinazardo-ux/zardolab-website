@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zardo Lab — Zardo Family Reunion Menu</title>
+<style>
+  :root{
+    --cream:#F2EFE9;
+    --ink:#1B1B1D;
+    --rust:#E63D1A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .bar{height:12px;background:var(--rust);}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 20px 60px;}
+
+  .menu-image{
+    width:100%;
+    display:block;
+    border:1px solid #ddd6c7;
+  }
+  .pdf-link{
+    text-align:center;padding:16px 0 0;font-size:13px;
+  }
+  .pdf-link a{color:var(--rust);font-weight:600;text-decoration:none;border-bottom:1px solid var(--rust);}
+
+  .secret-wrap{
+    text-align:center;margin-top:36px;
+  }
+  .secret-btn{
+    display:inline-block;
+    background:var(--ink);color:var(--cream);
+    text-decoration:none;
+    padding:14px 30px;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    border-radius:2px;
+  }
+  .secret-btn:hover{background:var(--rust);}
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<div class="wrap">
+
+  <img class="menu-image" src="reunion-menu.jpg" alt="Zardo Family Reunion cash bar menu">
+  <p class="pdf-link"><a href="zardo-reunion-menu.pdf">Download the PDF</a></p>
+
+  <div class="secret-wrap">
+    <a class="secret-btn" href="secret-menu.html">Secret Menu →</a>
+  </div>
+
+</div>
+</body>
+</html>
