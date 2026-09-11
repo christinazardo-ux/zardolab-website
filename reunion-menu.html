@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zardo Lab — Zardo Family Reunion Menu</title>
+<style>
+  :root{
+    --cream:#F2EFE9;
+    --ink:#1B1B1D;
+    --rust:#E63D1A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .bar{height:12px;background:var(--rust);}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 20px 60px;}
+
+  .pdf-frame{
+    width:100%;
+    aspect-ratio: 8.5 / 11;
+    border:1px solid #ddd6c7;
+    background:#fff;
+  }
+  .fallback{
+    text-align:center;padding:20px;font-size:14px;
+  }
+  .fallback a{color:var(--rust);font-weight:600;}
+
+  .secret-wrap{
+    text-align:center;margin-top:36px;
+  }
+  .secret-btn{
+    display:inline-block;
+    background:var(--ink);color:var(--cream);
+    text-decoration:none;
+    padding:14px 30px;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    border-radius:2px;
+  }
+  .secret-btn:hover{background:var(--rust);}
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<div class="wrap">
+
+  <object class="pdf-frame" data="zardo-reunion-menu.pdf" type="application/pdf">
+    <div class="fallback">
+      Can't display the PDF here — <a href="zardo-reunion-menu.pdf">open the menu directly</a>.
+    </div>
+  </object>
+
+  <div class="secret-wrap">
+    <a class="secret-btn" href="secret-menu.html">Secret Menu →</a>
+  </div>
+
+</div>
+</body>
+</html>
