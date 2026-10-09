@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B1B1D">
+<title>Zardo Lab — Poker, Pampers &amp; Potables</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F2EFE9;
+    --cream-dark:#E8E3DB;
+    --charcoal:#1B1B1D;
+    --aperitivo:#E63D1A;
+    --stone:#5E5B55;          /* darkened brand stone so secondary text stays readable */
+    --line:#D9D2C6;
+    --font-display:'Cormorant Garamond', Georgia, serif;
+    --font-ui:'Josefin Sans', -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{background:var(--cream);color:var(--charcoal);font-family:var(--font-ui);font-weight:400;-webkit-font-smoothing:antialiased;}
+
+  /* ── HERO (dark, like the home page) ── */
+  .hero{background:var(--charcoal);color:var(--cream);text-align:center;
+    padding:calc(40px + env(safe-area-inset-top)) 24px 44px;border-bottom:6px solid var(--aperitivo);}
+  .logo{display:inline-flex;flex-direction:column;align-items:center;text-decoration:none;color:inherit;}
+  .logo svg{width:84px;height:84px;display:block;}
+  .logo-name{font-family:var(--font-display);font-size:30px;font-weight:400;letter-spacing:.03em;margin-top:6px;line-height:1;}
+  .logo-sub{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--aperitivo);margin-top:8px;font-weight:600;}
+  .suits{margin:34px 0 14px;font-size:20px;letter-spacing:14px;color:var(--aperitivo);padding-left:14px;}
+  h1{font-family:var(--font-display);font-weight:500;font-size:clamp(46px,13vw,76px);line-height:.95;letter-spacing:-.01em;}
+  h1 em{font-style:italic;color:var(--aperitivo);font-weight:500;}
+  .occasion{margin-top:22px;font-size:14px;line-height:1.7;letter-spacing:.16em;text-transform:uppercase;color:#D8D3CA;}
+  .occasion strong{color:var(--cream);font-weight:600;display:block;letter-spacing:.12em;}
+
+  /* ── BODY ── */
+  .wrap{max-width:620px;margin:0 auto;padding:44px 20px 56px;}
+  section + section{margin-top:52px;}
+  .lab-label{font-size:13px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--aperitivo);}
+  h2{font-family:var(--font-display);font-weight:500;font-size:clamp(36px,10vw,46px);line-height:1;margin-top:6px;}
+  .intro{font-family:var(--font-display);font-style:italic;font-size:20px;line-height:1.4;color:var(--stone);margin-top:10px;padding-bottom:18px;border-bottom:1px solid var(--charcoal);}
+
+  .drink{padding:24px 0;border-bottom:1px solid var(--line);}
+  .drink-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;}
+  h3{font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.1;}
+  .tag{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    padding:6px 10px 5px;border:1px solid var(--charcoal);border-radius:2px;white-space:nowrap;}
+  .tag.zero{background:var(--aperitivo);border-color:var(--aperitivo);color:#fff;}
+  .specs{list-style:none;margin-top:14px;}
+  .specs li{font-size:17px;line-height:1.5;padding:3px 0;display:flex;gap:12px;}
+  .specs .oz{flex:0 0 52px;font-weight:600;color:var(--charcoal);}
+  .garnish{margin-top:10px;font-size:15px;line-height:1.5;color:var(--stone);}
+  .garnish span{font-weight:600;color:var(--charcoal);letter-spacing:.06em;text-transform:uppercase;font-size:13px;margin-right:6px;}
+
+  /* Mojito build */
+  .build{margin-top:24px;background:#fff;border:1px solid var(--line);border-top:4px solid var(--aperitivo);padding:24px 22px;}
+  .build h3{margin-bottom:4px;}
+  .step-label{font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--charcoal);margin:22px 0 10px;display:flex;align-items:center;gap:10px;}
+  .step-label b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--charcoal);color:var(--cream);font-size:13px;letter-spacing:0;padding-top:2px;}
+  .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .choice{border:1px solid var(--charcoal);padding:14px 6px 12px;text-align:center;}
+  .choice .suit{display:block;color:var(--aperitivo);font-size:20px;line-height:1;}
+  .choice .name{display:block;font-family:var(--font-display);font-weight:600;font-size:clamp(17px,5.4vw,22px);white-space:nowrap;margin-top:6px;line-height:1.1;}
+  .choice .amt{display:block;font-size:13px;color:var(--stone);margin-top:4px;}
+  .build .specs{margin-top:0;}
+
+  /* ── FOOTER ── */
+  footer{background:var(--charcoal);color:var(--cream);text-align:center;padding:44px 20px calc(44px + env(safe-area-inset-bottom));}
+  .sign-off{font-family:var(--font-display);font-style:italic;font-size:26px;}
+  .links{display:flex;flex-direction:column;gap:12px;max-width:340px;margin:26px auto 0;}
+  .btn{display:flex;align-items:center;justify-content:center;gap:12px;min-height:54px;padding:14px 20px;
+    font-family:var(--font-ui);font-size:14px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .2s,color .2s;}
+  .btn svg{width:20px;height:20px;flex:0 0 20px;}
+  .btn-primary{background:var(--aperitivo);color:#fff;}
+  .btn-primary:hover{background:#c9330f;}
+  .btn-outline{border:1px solid var(--cream);color:var(--cream);}
+  .btn-outline:hover{background:var(--cream);color:var(--charcoal);}
+  .fine{margin-top:26px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#A9A49B;}
+
+  @media (min-width:560px){
+    .wrap{padding:56px 32px 64px;}
+    .links{flex-direction:row;max-width:520px;}
+    .links .btn{flex:1;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <a class="logo" href="https://zardolab.com" aria-label="Zardo Lab home">
+    <svg viewBox="0 0 1254 1254" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M624.608 207.083 C 624.356 207.862,622.925 213.000,621.429 218.500 C 617.422 233.227,612.125 246.055,600.566 269.020 C 589.171 291.659,587.433 297.275,588.294 308.685 C 590.274 334.929,617.693 351.086,641.365 339.958 C 657.364 332.438,666.135 312.949,661.601 294.996 C 660.687 291.376,654.896 278.315,648.523 265.500 C 636.885 242.097,633.079 232.555,628.980 216.500 C 626.604 207.196,625.405 204.614,624.608 207.083" fill="#E63D1A" fill-rule="evenodd"/>
+      <path d="M335.213 313.128 C 327.779 315.272,316.539 340.390,311.105 367.000 C 303.649 403.516,307.616 437.607,323.033 469.500 C 346.986 519.052,396.277 554.886,480.500 583.977 C 533.450 602.266,553.951 612.688,573.681 631.349 C 595.730 652.203,607.868 677.662,612.461 712.684 C 613.639 721.667,614.000 734.441,614.000 767.184 L 614.000 809.952 597.250 810.226 L 580.500 810.500 580.500 822.500 L 580.500 834.500 597.433 834.766 C 606.746 834.912,614.447 835.137,614.546 835.266 C 614.646 835.395,615.244 845.400,615.876 857.500 C 618.026 898.708,617.003 919.476,611.912 937.947 C 610.767 942.101,605.616 954.275,600.465 965.000 C 588.080 990.787,585.838 999.075,588.007 1011.040 C 589.738 1020.585,593.224 1027.066,600.004 1033.343 C 607.956 1040.705,614.736 1043.330,626.052 1043.427 C 634.003 1043.495,635.141 1043.234,642.248 1039.722 C 653.723 1034.051,659.496 1026.550,662.604 1013.271 C 665.548 1000.691,663.060 990.202,651.660 967.148 C 634.728 932.905,632.233 917.069,634.989 861.337 L 636.292 835.000 645.396 834.994 C 650.403 834.991,658.226 834.698,662.780 834.343 L 671.061 833.699 670.780 822.099 L 670.500 810.500 653.750 810.226 C 638.715 809.980,636.988 809.775,636.879 808.226 C 636.812 807.277,636.827 787.600,636.912 764.500 C 637.029 732.765,637.440 719.934,638.594 712.000 C 643.462 678.534,655.001 653.969,675.480 633.472 C 695.255 613.679,715.508 603.252,772.000 583.778 C 826.313 565.055,865.137 543.399,893.329 516.103 C 917.846 492.365,933.338 465.116,940.234 433.597 C 942.155 424.815,942.439 420.569,942.413 401.000 C 942.385 380.195,942.176 377.572,939.641 366.187 C 935.423 347.241,926.972 325.318,920.923 317.629 C 913.945 308.759,900.000 312.335,900.000 322.994 C 900.000 325.139,901.480 329.922,903.489 334.271 C 908.237 344.545,912.432 357.416,915.137 370.000 C 918.334 384.876,918.428 413.018,915.327 427.121 C 909.821 452.171,896.387 475.752,876.293 495.639 C 849.232 522.422,814.033 541.111,747.500 564.024 C 715.511 575.041,700.454 581.692,683.592 592.252 C 661.161 606.302,642.092 626.728,629.484 650.211 C 627.036 654.770,625.026 657.854,625.017 657.064 C 624.991 654.833,614.396 636.649,608.780 629.196 C 598.390 615.409,584.995 603.149,568.888 592.686 C 552.608 582.112,533.779 573.865,496.500 560.984 C 431.144 538.400,395.030 517.925,367.992 488.126 C 351.532 469.986,340.326 448.647,335.368 426.000 C 333.897 419.282,333.514 413.412,333.545 398.000 C 333.579 380.219,333.830 377.446,336.389 366.540 C 339.640 352.681,342.881 343.231,347.626 333.775 C 351.791 325.474,352.059 320.435,348.538 316.636 C 346.116 314.022,342.009 311.913,339.685 312.090 C 339.033 312.140,337.021 312.607,335.213 313.128" fill="#F2EFE9" fill-rule="evenodd"/>
+      <path d="M433.500 407.067 C 410.422 409.019,379.050 414.854,371.980 418.511 C 362.331 423.500,364.899 435.672,379.804 455.595 C 402.527 485.967,440.737 510.846,494.567 530.316 C 591.707 565.452,710.030 559.044,800.500 513.749 C 842.611 492.665,874.992 461.813,884.348 433.862 C 888.830 420.472,878.796 414.346,853.000 414.723 C 839.368 414.922,824.951 417.675,801.500 424.557 C 753.071 438.767,729.230 443.001,697.644 442.999 C 665.687 442.997,644.316 439.435,592.500 425.472 C 539.709 411.246,513.309 407.161,470.000 406.517 C 455.975 406.308,439.550 406.556,433.500 407.067" fill="#E63D1A" fill-rule="evenodd"/>
+    </svg>
+    <span class="logo-name">Zardo Lab</span>
+    <span class="logo-sub">Experiment &amp; Indulge</span>
+  </a>
+
+  <div class="suits" aria-hidden="true">♠♥♣♦</div>
+  <h1>Poker, Pampers<br><em>&amp; Potables</em></h1>
+  <p class="occasion">Celebrating<strong>Nora &amp; Elizabeth’s Baby Shower</strong></p>
+</header>
+
+<main class="wrap">
+
+  <section aria-labelledby="negroni">
+    <p class="lab-label">Lab 01</p>
+    <h2 id="negroni">The Negroni Lab</h2>
+    <p class="intro">Four expressions of a classic. Choose your experiment.</p>
+
+    <article class="drink">
+      <div class="drink-head"><h3>The Negroni</h3><span class="tag">The Original</span></div>
+      <ul class="specs">
+        <li><span class="oz">1 oz</span>Tanqueray gin</li>
+        <li><span class="oz">1 oz</span>Campari</li>
+        <li><span class="oz">1 oz</span>Dolin sweet vermouth</li>
+      </ul>
+      <p class="garnish"><span>Garnish</span>Orange wheel</p>
+    </article>
+
+    <article class="drink">
+      <div class="drink-head"><h3>Night Shift Negroni</h3><span class="tag">Dark &amp; Rich</span></div>
+      <ul class="specs">
+        <li><span class="oz">1 oz</span>Orange-infused gin</li>
+        <li><span class="oz">1 oz</span>Campari</li>
+        <li><span class="oz">1 oz</span>Coffee &amp; cacao-infused sweet vermouth</li>
+      </ul>
+      <p class="garnish"><span>Garnish</span>Orange wheel</p>
+    </article>
+
+    <article class="drink">
+      <div class="drink-head"><h3>Negroni Bianco</h3><span class="tag">Bright &amp; Bitter</span></div>
+      <ul class="specs">
+        <li><span class="oz">1 oz</span>Lemon &amp; lime-infused gin</li>
+        <li><span class="oz">1 oz</span>Luxardo Bitter Bianco</li>
+        <li><span class="oz">1 oz</span>Lillet Blanc</li>
+      </ul>
+      <p class="garnish"><span>Garnish</span>Lemon wheel</p>
+    </article>
+
+    <article class="drink">
+      <div class="drink-head"><h3>NOra-groni</h3><span class="tag zero">0.0% Alcohol</span></div>
+      <ul class="specs">
+        <li><span class="oz">1 oz</span>Seedlip</li>
+        <li><span class="oz">1 oz</span>Bark &amp; Bitter Novara Aperitivo</li>
+        <li><span class="oz">1 oz</span>Bella Ver0</li>
+      </ul>
+      <p class="garnish"><span>Garnish</span>Muddled orange slice</p>
+    </article>
+  </section>
+
+  <section aria-labelledby="mojito">
+    <p class="lab-label">Lab 02</p>
+    <h2 id="mojito">The Moscow Mojito Lab</h2>
+    <p class="intro">One refreshing formula. Your spirit, your citrus, your call.</p>
+
+    <div class="build">
+      <h3>Moscow Mojito Mix&#8209;Up</h3>
+
+      <p class="step-label"><b>1</b>Choose your pour</p>
+      <div class="choices">
+        <div class="choice"><span class="suit" aria-hidden="true">♠</span><span class="name">Vodka</span><span class="amt">1½ oz</span></div>
+        <div class="choice"><span class="suit" aria-hidden="true">♥</span><span class="name">Rum</span><span class="amt">1½ oz</span></div>
+        <div class="choice"><span class="suit" aria-hidden="true">♣</span><span class="name">Zero&#8209;proof</span><span class="amt">No spirit</span></div>
+      </div>
+
+      <p class="step-label"><b>2</b>Pick your citrus</p>
+      <ul class="specs">
+        <li><span class="oz">½ oz</span>Fresh lime, lemon, or a little of both</li>
+      </ul>
+
+      <p class="step-label"><b>3</b>The base</p>
+      <ul class="specs">
+        <li><span class="oz">4–6</span>Fresh mint leaves</li>
+        <li><span class="oz">¼ oz</span>Berry simple syrup</li>
+        <li><span class="oz">4 oz</span>Ginger beer</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="sign-off">Come curious. Stay awhile.</p>
+  <div class="links">
+    <a class="btn btn-primary" href="https://zardolab.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20"/></svg>
+      zardolab.com
+    </a>
+    <a class="btn btn-outline" href="https://instagram.com/zardolab" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
+      @zardolab
+    </a>
+  </div>
+</footer>
+
+</body>
+</html>
